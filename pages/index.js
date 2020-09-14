@@ -1,12 +1,20 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <Link href="/content"><a>Netflix Clone</a></Link>
-
+    <div className="mainPage">
+      <Link href="/content"><a><img src="/netflix.png" width="190px" /></a></Link>
+      <style jsx>{`
+          .mainPage{
+            background-color:black;
+            color:white;
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+          }
+      `}</style>
     </div>
   )
 }
