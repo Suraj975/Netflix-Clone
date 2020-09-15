@@ -65,7 +65,8 @@ transition: width .45s;
 }
 
 .title{
-    color:red;
+   text-align:center;
+
 }
 .bannerButton{
     cursor: pointer;

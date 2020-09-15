@@ -30,6 +30,7 @@ export default function NetflixContent({ apiDatas, apiKeys }) {
       <div className={styles.bannerWrapper}>
         {bannerImage}
         <div className="bannerContent">
+        <div className="textContent">
         <h1 className="title">{bannerData && bannerData.name}</h1>
           <div>
             <button className={styles.bannerButton}>Play</button>
@@ -38,6 +39,8 @@ export default function NetflixContent({ apiDatas, apiKeys }) {
           <div className={styles.summaryText}>
             {bannerData && bannerData.overview}
           </div>
+          </div>
+          <div className="blurBox"></div>
       <style jsx>{`
         .bannerContent {
           position: absolute;
@@ -48,12 +51,24 @@ export default function NetflixContent({ apiDatas, apiKeys }) {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          margin-left:30px;
         }
+        .blurBox{
+          width: 100%;
+          position: absolute;
+          bottom: 0;
+          height: 7.4rem;
+          background-image: linear-gradient(180deg,transparent,rgba(37,37,37,.61),#111);
+      }
+      .textContent{
+        margin-left:20px;
+      }
+
         @media only screen and (max-width: 650px) {
           .bannerContent {
           align-items:center;
-          margin-left:0px;
+          }
+          .textContent{
+            margin-left:0px;
           }
         }
 
