@@ -1,9 +1,14 @@
 import { DATA_ACCESS_POINTS, BASE_IMAGE_URL } from "../constant";
 import { useEffect, useState } from "react";
 import styles from "../styles/NetflixContent.module.css";
+import YouTube from 'react-youtube';
+import movieTrailer from 'movie-trailer'
 
-export default function NetflixContent({ apiDatas, apiKeys }) {
+export default function NetflixContent() {
   const [show, setShow] = useState(false);
+  const [showSection, setSection] = useState("");
+  const  [url,setUrl] = useState("");
+
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if (window.scrollY > 100) {
@@ -14,6 +19,27 @@ export default function NetflixContent({ apiDatas, apiKeys }) {
     });
     return () => window.removeEventListener("scroll", null);
   }, []);
+
+  const opts = {
+    height: '390',
+    width: '100%',
+    playerVars: {
+      autoplay: 1,
+    },
+  };
+
+  const handleYoutubeContent = (title, data) => {
+    if(url){
+      setUrl("")
+      setSection("")
+    }
+    movieTrailer(title || "").then(url => {
+        const urlParams = new URLSearchParams(new URL(url).search);
+        setUrl(urlParams.get('v'));
+        setSection(data)
+    }).catch((error) => console.log(error))
+}
+
   const showBanner = bannerIndex => {
     let bannerData = apiDatas["NETFLIX_ORIGINALS"].results[bannerIndex];
     const bannerImage = (
@@ -88,7 +114,7 @@ export default function NetflixContent({ apiDatas, apiKeys }) {
         </div>
       </div>
       <div>
-        {apiDatas &&
+        {!apiDatas &&
           showBanner(
             Math.floor(
               Math.random() * apiDatas["NETFLIX_ORIGINALS"].results.length
@@ -105,17 +131,22 @@ export default function NetflixContent({ apiDatas, apiKeys }) {
                   {apiDatas[data] &&
                     apiDatas[data]["results"].map(lists => {
                       return (
-                        <div key={lists.id} className={styles.posterWrapper}>
-                          <div className={styles.imagePosters}>
+                        <div key={lists.id} className={styles.posterWrapper} >
+                          <div className={styles.imagePosters} >
                             <img
                               src={`${BASE_IMAGE_URL}${lists.poster_path}`}
                               className={styles.image}
+                              id="img"
+                              onClick={() => handleYoutubeContent(lists.title || lists.name, data)}
                             />
                           </div>
                         </div>
                       );
                     })}
+                    {/* <div className={styles.youtube}>
+                   </div> */}
                 </div>
+                {url && showSection === data && <YouTube videoId={url} opts={opts}/>}
               </div>
             );
           })}
