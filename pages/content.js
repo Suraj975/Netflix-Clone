@@ -4,7 +4,7 @@ import styles from "../styles/NetflixContent.module.css";
 import YouTube from 'react-youtube';
 import movieTrailer from 'movie-trailer'
 
-export default function NetflixContent() {
+export default function NetflixContent({apiDatas, apiKeys}) {
   const [show, setShow] = useState(false);
   const [showSection, setSection] = useState("");
   const  [url,setUrl] = useState("");
@@ -114,7 +114,7 @@ export default function NetflixContent() {
         </div>
       </div>
       <div>
-        {!apiDatas &&
+        {apiDatas &&
           showBanner(
             Math.floor(
               Math.random() * apiDatas["NETFLIX_ORIGINALS"].results.length
